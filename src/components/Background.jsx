@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Home from "./Home";
 import Musicplayer from "./Musicplayer";
 import {Play,Pause} from "./IconButton"
+import Musicbar from "./Musicbar";
 
 const Background = () => {
    const [isPlaying,setIsPlaying] = useState(false);
@@ -151,8 +152,11 @@ useEffect(() => {
             </div>
           </div>
         </div>
+        
           <div className="absolute bottom-16 ">
+           
         <Musicplayer  />
+          
       </div>
       <div className="absolute top-28 flex justify-center w-screen">
        <h1 className="text-7xl font-test">Elixir</h1> 

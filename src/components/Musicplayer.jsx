@@ -1,9 +1,12 @@
 import React, {useEffect, useRef, useState } from 'react'
 import { Play,Pause,Next,Prev } from './IconButton'
 import chatpateGaane from '../assets/data/chatpateGaane'
+import Musicbar from './Musicbar'
 const Musicplayer = () => {
  const [currTrack,setCurrTrack] = useState(0);
  const [isPlaying,setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
 
 const handlePlayPause =()=>{
   return(
@@ -31,6 +34,21 @@ const {title,artist,cover,src} =chatpateGaane[currTrack]
 
 const audioRef =useRef(null)
 
+ // Track time updates
+  const handleTimeUpdate = () => {
+    setCurrentTime(audioRef.current.currentTime)
+  }
+
+  const handleLoadedMetadata = () => {
+    setDuration(audioRef.current.duration)
+  }
+
+  const handleSeek = (e) => {
+    const seekTime = e.target.value
+    audioRef.current.currentTime = seekTime
+    setCurrentTime(seekTime)
+  }
+
   return (
     
     <div className=' flex justify-center w-screen z-50 '>
@@ -51,6 +69,15 @@ const audioRef =useRef(null)
             <p>
               {artist}
             </p>
+            <div className='flex justify-start w-full'> 
+
+            
+            <Musicbar
+             currentTime={currentTime}
+              duration={duration}
+              onSeek={handleSeek}/>
+            
+            </div>
            </div>
             <div className='flex  justify-around items-end h-1/3 pb-4'>
             
@@ -64,7 +91,9 @@ const audioRef =useRef(null)
             </div>
             <audio src={src}
             preload='metadata'
-            ref={audioRef}>
+            ref={audioRef}
+             onTimeUpdate={handleTimeUpdate}
+            onLoadedMetadata={handleLoadedMetadata}>
               
             </audio>
              
